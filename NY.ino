@@ -64,9 +64,55 @@ const int N_dur[] = {
 
 const int N_COUNT = sizeof(melody) / sizeof(int);
 
+void setColor(int note) {
+  digitalWrite(PIN_R, HIGH);
+  digitalWrite(PIN_G, HIGH);
+  digitalWrite(PIN_B, HIGH);
+  if (note == N_G4) { digitalWrite(PIN_R, LOW); }
+  if (note == N_A4) {
+    digitalWrite(PIN_R, LOW);
+    digitalWrite(PIN_G, LOW);
+  }
+  if (note == N_B4) { digitalWrite(PIN_G, LOW); }
+  if (note == N_C5) {
+    digitalWrite(PIN_G, LOW);
+    digitalWrite(PIN_B, LOW);
+  }
+  if (note == N_D5) { digitalWrite(PIN_B, LOW); }
+  if (note == REST) {
+    digitalWrite(PIN_R, LOW);
+    digitalWrite(PIN_G, LOW);
+    digitalWrite(PIN_B, LOW);
+  }
+}
+
+void pressNote(int note) {
+  for (int i = 6; i <= 13; i++) digitalWrite(i, LOW);
+  if (note == N_G4) digitalWrite(7, HIGH);
+  if (note == N_A4) digitalWrite(8, HIGH);
+  if (note == N_B4) digitalWrite(9, HIGH);
+  if (note == N_C5) digitalWrite(11, HIGH);
+  if (note == N_D5) digitalWrite(12, HIGH);
+}
 
 void setup() {
-  
+  for (int i = 3; i <= 13; i++) {
+    pinMode(i, OUTPUT);
+    digitalWrite(i, LOW);
+  }
+
+  for (int i = 0; i < N_COUNT; i++) {
+    int dur = WHOLE / N_dur[i];
+    setColor(melody[i]);
+    pressNote(melody[i]);
+    tone(BUZZER, melody[i], dur);
+    delay(dur/2);
+    pressNote(0);
+    delay(dur/2);
+    setColor(-1);
+    delay(dur * 0.2);
+    noTone(BUZZER);
+  }
 }
 
 void loop() {
