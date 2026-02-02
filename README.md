@@ -4,8 +4,5 @@ Robocode New Year Project
 
 testing
 TESTED by slaves
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/main
++
 Approved by MASTER
